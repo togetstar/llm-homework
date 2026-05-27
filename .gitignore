@@ -1,0 +1,24 @@
+# ===== models =====
+Qwen-1.8B-Chat/
+chatglm3-6b/
+Baichuan2-7B-Chat/
+
+# ===== conda / env =====
+miniconda*/
+anaconda*/
+*.sh
+
+# ===== caches / IDE =====
+__pycache__/
+*.pyc
+.vscode/
+.configs/
+.lingma_storage/
+
+# ===== archives / db =====
+*.zip
+*.db
+*.zap
+
+# ===== logs =====
+*.log
