@@ -9,14 +9,14 @@ print("=" * 50)
 print("大模型对话系统")
 print("1. Qwen-1.8B-Chat")
 print("2. ChatGLM3-6B")
-print("3. Baichuan2-7B-Chat")
 print("=" * 50)
 
-choice = input("请选择模型(1/2/3): ")
+choice = input("请选择模型(1/2): ")
 
-# -------------------------------
+# =====================================================
 # Qwen
-# -------------------------------
+# =====================================================
+
 if choice == "1":
 
     model_path = "/mnt/workspace/Qwen-1_8B-Chat"
@@ -31,7 +31,8 @@ if choice == "1":
     model = AutoModelForCausalLM.from_pretrained(
         model_path,
         trust_remote_code=True,
-        torch_dtype="auto"
+        torch_dtype=torch.float32,
+        low_cpu_mem_usage=True
     ).eval()
 
     print("Qwen 加载成功！")
@@ -44,19 +45,23 @@ if choice == "1":
         if prompt.lower() == "exit":
             break
 
+        print("\nQwen 正在思考...\n")
+
         response, history = model.chat(
             tokenizer,
             prompt,
             history=None
         )
 
-        print("Qwen:", response)
+        print("Qwen:")
+        print(response)
         print()
 
 
-# -------------------------------
+# =====================================================
 # ChatGLM3
-# -------------------------------
+# =====================================================
+
 elif choice == "2":
 
     model_path = "/mnt/workspace/chatglm3-6b"
@@ -70,7 +75,9 @@ elif choice == "2":
 
     model = AutoModel.from_pretrained(
         model_path,
-        trust_remote_code=True
+        trust_remote_code=True,
+        torch_dtype=torch.float32,
+        low_cpu_mem_usage=True
     ).eval()
 
     print("ChatGLM3 加载成功！")
@@ -85,59 +92,23 @@ elif choice == "2":
         if prompt.lower() == "exit":
             break
 
+        print("\nChatGLM3 正在思考...\n")
+
         response, history = model.chat(
             tokenizer,
             prompt,
             history=history
         )
 
-        print("ChatGLM3:", response)
+        print("ChatGLM3:")
+        print(response)
         print()
 
 
-# -------------------------------
-# Baichuan2
-# -------------------------------
-elif choice == "3":
-
-    model_path = "/mnt/workspace/Baichuan2-7B-Chat"
-
-    print("\n正在加载 Baichuan2 模型，请稍等...\n")
-
-    tokenizer = AutoTokenizer.from_pretrained(
-        model_path,
-        trust_remote_code=True
-    )
-
-    model = AutoModelForCausalLM.from_pretrained(
-        model_path,
-        trust_remote_code=True,
-        torch_dtype="auto"
-    ).eval()
-
-    print("Baichuan2 加载成功！")
-    print("输入 exit 退出\n")
-
-    messages = []
-
-    while True:
-
-        prompt = input("用户: ")
-
-        if prompt.lower() == "exit":
-            break
-
-        messages.append({"role": "user", "content": prompt})
-
-        response = model.chat(
-            tokenizer,
-            messages
-        )
-
-        print("Baichuan2:", response)
-        print()
-
-        messages.append({"role": "assistant", "content": response})
+# =====================================================
+# 输入错误
+# =====================================================
 
 else:
+
     print("输入错误，请重新运行程序！")
