@@ -1,0 +1,14 @@
+torch==2.3.0+cpu
+torchvision==0.18.0+cpu
+transformers==4.33.3
+sentencepiece
+accelerate
+numpy
+pillow
+protobuf
+scipy
+tqdm
+requests
+safetensors
+huggingface_hub
+einops
